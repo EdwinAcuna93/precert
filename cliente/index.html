@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <!-- Librerias -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script  src ="js/listar.js" ></script>
+     <!-- Scripts de funcionalidades del crud -->
+     <script  src ="js/listar.js" ></script>
      <script  src ="js/agregar.js" ></script>
      <script src="js/eliminar.js"></script>
-    <!-- <script  src ="js/editarNota.js" ></script>  -->
+     <script src="js/editar.js"></script>
+
     <title>Equipos</title>
 </head>
 <style>
@@ -35,7 +38,7 @@
         <table class="table mt-3 ">
             <thead class="bg-dark text-white">
                 <tr class="text-center">
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Nombre</th>
                     <th>Integrantes</th>
                     <th>Estado</th>
@@ -75,6 +78,7 @@
           <br>
           <label for="Estado">Estado:</label>
           <select name="Estado" id="Estado" class="form-control select">
+            <Option selected="true" value="0" disabled>Elige una Opcion</Option>
             <option value="Activo">Activo</option> 
             <option value="Inactivo">Inactivo</option>
           </select>
@@ -91,40 +95,46 @@
   </div>
 
 
-  <!-- Modal Modificar -->
+  <!-- Modal Editar -->
   <div id="ModalModificar" class="modal fade" role="dialog">
     <div class="modal-dialog">
-      <!-- Modal content Modificar-->
+      <!-- Modal content Editar-->
       <div class="modal-content">
-        <div class="modal-header bg-warning text-white">
-          <h4 class="modal-title">Modificar Categoria</h4>
+        <div class="modal-header bg-secondary text-white">
+          <h4 class="modal-title">Editar Equipo</h4>
         </div>
         <div class="modal-body">
-          <input type="hidden" class="form-control" id="idM" >
+          <form id="modaledit">
+          <label>Codigo:</label>
+          <input type="text" class="form-control inputs" id="CodigoM"  disabled>
+          <p id="CodigoMod" class="errors"></p>
+          <br>
           <label>Nombre:</label>
-          <input type="text" class="form-control" id="nombreM"  required="">
+          <input type="text" class="form-control inputs" id="NombreM"  required>
+          <p id="NombreMod" class="errors"></p>
           <br>
-          <label>Descripcion:</label>
-          <input type="text" class="form-control" id="descripcionM" required>
-          <label>Fecha:</label>
-          <input type="date" class="form-control" id="fechaM" placeholder="fecha de la nota" required>
+          <label>Integrantes:</label>
+          <input type="number" class="form-control inputs" id="IntegrantesM" required>
+          <p id="IntegrantesMod" class="errors"></p>
           <br>
-          <label>Prioridad:</label>
-          <select name="prioridad" class="form-control" id="prioridadM">
-            <option value="alta">alta</option> 
-            <option value="baja">baja</option>
+          <label for="Estado">Estado:</label>
+          <select name="Estado" id="EstadoM" class="form-control select">
+            <option value="Activo">Activo</option> 
+            <option value="Inactivo">Inactivo</option>
           </select>
+          <p id="EstadoMod" class="errors"></p>
+          </form>
         </div>
-        
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" onclick="" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" onclick="editarNota()" data-dismiss="modal">Modificar</button>
+          <button type="button" class="btn btn-danger btnModal"  data-dismiss="modal" onclick="limpiar()">Cancelar</button>
+          <!-- Esta funcion de modificarEquipo esta definida en el scrip editar -->
+          <button type="button" class="btn btn-success"  onclick="modificarEquipo()" data-dismiss="modal">Actualizar</button>
         </div>
       </div>
     </div>
   </div>
   
-
+<!-- modal para eliminar un registro -->
   <div id="ModalEliminar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -134,7 +144,7 @@
               <div class="modal-footer">
                   <input class="inputs" type="hidden" id="idEliminar">
                   <button class="btn btn-warning" data-dismiss="modal">Cancelar</button>
-                  <button class="btn btn-danger" onclick="siEleminar()">Eliminar</button>
+                  <button class="btn btn-danger" onclick="borrar()">Eliminar</button>
               </div>
           </div>
       </div>

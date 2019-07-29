@@ -12,7 +12,8 @@ function limpiar(){
 function cargarDatosTabla(){
     $.ajax({
         method:'get',
-        url:'http://localhost/apiRest/public/api/equipo',
+        // url:'http://localhost/apiRest/public/api/equipo',
+        url:'http://127.0.0.1:8000/api/equipo',
         success:listarEquipos,
         error:error
     });
@@ -26,7 +27,7 @@ function listarEquipos(response){
                                 +'<td class="text-center">'+element.Integrantes+'</td>'
                                 +'<td class="text-center">'+element.Estado+'</td>'
                                 +'<td class="text-center">'
-                                +'<button type="button" class="btn btn-warning" onclick="buscarCategoriaEditar('+element.Codigo+')" data-toggle="modal" data-target="#ModalModificar">Modificar</button> | '
+                                +'<button type="button" class="btn btn-warning" onclick="editarEquipo('+element.Codigo+')" data-toggle="modal" data-target="#ModalModificar">Modificar</button> | '
                                 +'<button type="button" class="btn btn-danger" onclick="eliminar('+element.Codigo+')" data-toggle="modal" data-target="#ModalEliminar">Eliminar</button>'
                                 +'</td>'+
                                 +'</tr>');

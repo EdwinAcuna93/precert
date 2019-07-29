@@ -71,30 +71,50 @@ class EquipoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * FUncion para cargar los datos de un registro a editar
      * @param  \App\Equipo  $equipo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Equipo $equipo)
+    public function edit($Codigo)
     {
-        //
+        $equipo=Equipo::where('Codigo',$Codigo)->first();
+        return response()->json($equipo);
+  
     }
 
     /**
-     * Update the specified resource in storage.
+     * Funcion par actualizar un registro.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Equipo  $equipo
+     * @param  Codigo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Equipo $equipo)
+    public function update(Request $request, $Codigo)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'Codigo' => 'required|min:1|max:10',
+            'Nombre' => 'required|min:2|max:75',
+            'Integrantes' => 'required|numeric',
+            'Estado' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(array('errors' => $validator->getMessageBag()->toArray()));
+        } else {
+            //Si la validación pasa se procede a realizar la actualización.
+            $equipo = Equipo::where('Codigo',$Codigo)->update(array(
+                //'Codigo'=>$request->Codigo,
+                'Nombre'=>$request->Nombre,
+                'Integrantes'=>$request->Integrantes,
+                'Estado'=>$request->Estado
+                
+            ));
+            return response()->json($equipo);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función para eliminar un registro.
      *
      * @param  \App\Equipo  $equipo
      * @return \Illuminate\Http\Response
